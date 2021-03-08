@@ -11,6 +11,18 @@ The purpose of this project is to develop a model that could predict its rating 
 ## About the Dataset
 I used Amazon Products data, which contains product reviews and metadata from Amazon, including 142.8 million reviews spanning May 1996 ~ July 2014. The dataset includes reviews (ratings, text, helpfulness votes), product metadata (descriptions, category information, price, brand, and image features), and links (also viewed/also bought graphs).
 
-In this project, I use a 5-core dataset of Cell Phones and Accessories, which is a subset of the data in which all users and items have at least 5 reviews.
+In this project, I use a 5-core dataset of Cell Phones and Accessories, which is a subset of the data in which all users and items have at least 5 reviews. [Link to the Dataset](http://jmcauley.ucsd.edu/data/amazon/)
+
 
 Sample review is as follows:
+```bash
+"reviewerID": "A2SUAM1J3GNN3B",  
+"asin": "0000013714",  
+"reviewerName": "J. McDonald",  
+"helpful": [2, 3],  
+"reviewText": "I bought this for my husband who plays the piano.  He is having a wonderful time playing these old hymns.  The music  is at times hard to read because we think the book was published for singing from more than playing from.  Great purchase though!",  
+"overall": 5.0,  
+"summary": "Heavenly Highway Hymns",  
+"unixReviewTime": 1252800000,  
+"reviewTime": "09 13, 2009"  
+```
