@@ -220,13 +220,15 @@ def Lemmatize_Tokens(tokens):
  After this step, we get Normalized Amazon Reviews.
  
  ## Feature Engineering 
-Feature Engineering can be defined as a process of  making machine learning algorithm works well by using domain knowledge to create features in the data set. It is a fundamental in the application of machine learning. 
+ 
+Feature Engineering can be defined as a process of making a machine learning algorithm that works well by using domain knowledge to create features in the data set. It is fundamental in the application of machine learning. 
 
-Features can be described as a unique and measurable property for each row or observation in a dataset. Machine learning algorithms usually works with numerical features. If in case they are not numerical, there are various techniques that can used to deal with such features, like one-hot encoding, imputation, and scaling etc.
+Features can be described as a unique and measurable property for each row or observation in a dataset. Machine learning algorithms usually work with numerical features. If in case they are not numerical, there are various techniques that can be used to deal with such features, like one-hot encoding, imputation, and scaling, etc.
 
 The Vector Space Model, also known as the Term Vector Model, is defined as a mathematical and algebraic model for transforming and representing text documents as numeric vectors of specific terms that form the vector dimensions. It is very useful in case we are dealing with textual data and is very popular in information retrieval and document ranking. 
 
 I will be implementing the following feature-extraction techniques in this project:
+
 * Bag of Words model
 * TF-IDF model
 * Advance Word Vertorization Models
