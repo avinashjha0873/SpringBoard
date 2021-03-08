@@ -254,7 +254,7 @@ def Bag_of_words(corpus):
 
 TF-IDF stands for Term Frequency-Inverse Document Frequency. 
 
-![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/TD-IDF%20Formula.PNG)
+  ![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/TD-IDF%20Formula.PNG)
 
 **Term Frequency** is nothing but what we have computed in Bag of Words Model ie count of each word in a doc stored in the form of a vector.
 
@@ -262,7 +262,17 @@ TF-IDF stands for Term Frequency-Inverse Document Frequency.
 
 In our implementation, we will be adding 1 to the document frequency for each term just to indicate that we also have one more document in our corpus that essentially has every term in the vocabulary. This is to prevent potential division-by-zero errors and smoothen the inverse document frequencies. We also add 1 to the result of our idf computation to avoid ignoring terms completely that might have zero idf.
 
-![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/TD-IDF2.PNG)
+    ![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/TD-IDF2.PNG)
 
 where idf(t) represents the idf for the term t, C represents the count of the total number of documents in our corpus, and df(t) represents the frequency of the number of documents in which the term t is present.
 
+```bash
+from sklearn.feature_extraction.text import TfidfVectorizer
+#Defining the function to compute tfidf based feature vectors for documents.
+def tfidf(corpus):
+    vectorizer = TfidfVectorizer()
+    features = vectorizer.fit_transform(corpus)
+    return vectorizer, features
+ ```
+ 
+ 
