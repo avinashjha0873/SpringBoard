@@ -236,11 +236,16 @@ I will be implementing the following feature-extraction techniques in this proje
   * TF-IDF Weighted Averaged Word Vectors
 
 ### 1: Bag of Words Model
-The Bag of Words Model, A.K.A BoW, is the easiest yet very effective technique to extract features from text data that can be used to train machine learning models.
 
-The approach is very simple, we take a text document and covert them into vectors and each vector represents the frequency of that word in that document. In simple words a bag-of-words is a representation of text that describes the occurrence of words within a document. It involves 2 things:-
-* Vocabulary of the words.
+The Bag of Words Model, A.K.A BoW is the easiest yet very effective technique to extract features from text data that can be used to train machine learning models.
+
+The approach is very simple, we take a text document and convert them into vectors and each vector represents the frequency of that word in that document. In simple words, a bag-of-words is a representation of text that describes the occurrence of words within a document.
+
+It involves 2 things:-
+
+* The vocabulary of the words.
 * A measure of presend of known words.
+
 
 ```python
 from sklearn.feature_extraction.text import CountVectorizer
@@ -278,4 +283,7 @@ def tfidf(corpus):
     return vectorizer, features
  ```
  
+ ## References
  
+ * [Scikit Learn Feaure Extraction](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction)
+ * [Introduction to Bag of Words](https://machinelearningmastery.com/gentle-introduction-bag-words-model/)
