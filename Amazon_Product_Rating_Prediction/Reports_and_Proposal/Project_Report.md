@@ -232,3 +232,9 @@ I will be implementing the following feature-extraction techniques in this proje
 * Averaged Word Vectors
 * TF-IDF Weighted Averaged Word Vectors
 
+### 1: Bag of Words Model
+The Bag of Words Model, A.K.A BoW, is the easiest yet very effective technique to extract features from text data that can be used to train machine learning models.
+
+The approach is very simple, we take a text document and covert them into vectors and each vector represents the frequency of that word in that document. In simple words a bag-of-words is a representation of text that describes the occurrence of words within a document. It involves 2 things:-
+* Vocabulary of the words.
+* A measure of presend of known words.
