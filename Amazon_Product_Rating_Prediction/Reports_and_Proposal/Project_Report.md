@@ -55,10 +55,84 @@ consist of various steps like:-
 
 We will use most of the techniques in this project.
 
-### Tokenizing Text
+### 1: Removing Special Characters
+One important task in text normalization involves removing unnecessary and special characters. These may be special symbols or punctuations that occur in sentences.
+
+Special Characters and symbols are usually non-alphanumeric characters or even occasionally numeric characters(depending on the problem) which adds extra noise to unstructured text data and does not add much significance while analyzing text and utilizing it for feature extraction
+
+```bash
+#Defining function to remove special characters keeping only apha characters
+def Remove_Special_Characters(text):
+    text = text.strip()
+    pattern = '[^a-zA-z]'
+    filtered_text = re.sub(pattern, ' ', text) #Replace matches with spaces
+    return filtered_text
+ ```   
+ 
+### 2: Expanding Contractions
+Contractions are words or combinations of words that are shortened by dropping letters or sounds and replacing them with an apostrophe. They exist in either written or spoken forms. In the case of English contractions, they are often created by removing one of the vowels from the word.
+
+Contractions cause various problems with NLP and text analytics like:-
+* Don’t and Do Not type of words are treated differently.
+* We have a special apostrophe character in the word.
+
+Ideally, we can have a proper mapping for contractions and their corresponding expansions and then use it to expand all the contractions in our text.
+
+
+    
+### 3: Tokenizing Text
 Tokenization is the process of transforming a string or document into smaller chunks, which we call tokens. This is usually one step in the process of preparing a text for natural language processing.
  
-Sentence Tokenization is a process of converting text corpus into sentences which is the first level of tokens. This is also called Sentence Segmentation because we try to segment the text into meaningful sentences.
+**Sentence Tokenization** is a process of converting text corpus into sentences which is the first level of tokens. This is also called Sentence Segmentation because we try to segment the text into meaningful sentences.
 
-Word Tokenization is a process of splitting sentences into words.
+**Word Tokenization** is a process of splitting sentences into words.
+```bash
+#Defined Tokenization fuction
+# The following function will take any sentence and convert it into word tokens
+# Then strip leading and trailing spaces
+def Tokenize_Text(text):
+    word_tokens = word_tokenize(text)
+    tokens = [token.strip() for token in word_tokens]
+    return tokens
+```
+
+### 3: Removing Stopwords
+Stopwords are the words that has little or no significance especially when consturcting meaningful features from text. They are removed from the text so that we are left with words having maximum significance.
+
+They are usually words that have maximum frequency if you aggregate any corpus of text based on singular tokens.
+
+Ex:- a, the, of and so on.
+
+```bash
+#In Python, searching through set is much faster than list.
+stopword_set = set(stopwords.words("english"))
+
+#Defining a function to remove stopwords
+def Remove_Stopwords(tokens):
+    filtered_tokens = [token for token in tokens if token not in stopword_set]
+    return filtered_tokens
+```
+
+### 4: Correcting Words
+Incorrect spellings are very normal and also one of the main challeges faced in Text Normalization. The definition of incorrect here covers words that have spelling mistakes as well as words with several letters repeated that do not contribute much to its overall significance.
+
+#### 4.1: Correcting Repeating Characters
+```bash
+from nltk.corpus import wordnet
+
+# Define function to remove repeated characters
+def Remove_Repeated_Characters(tokens):
+    repeat_pattern = re.compile(r'(\w*)(\w)\2(\w*)')
+    match_substitution = r'\1\2\3'
+    def replace(old_word):
+        if(wordnet.synsets(old_word)):
+            return old_word
+        new_word = repeat_pattern.sub(match_substitution, old_word) # substitutes a wrong spelling like "Hellooooo" to "Hello"
+        return replace(new_word) if new_word != old_word else new_word
+
+    correct_tokens = [replace(word) for word in tokens]
+    return correct_tokens
+ ```
+ 
+#### 4.2: Correcting Spellings
 
