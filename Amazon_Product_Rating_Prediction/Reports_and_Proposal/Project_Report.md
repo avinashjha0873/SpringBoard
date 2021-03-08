@@ -238,3 +238,16 @@ The Bag of Words Model, A.K.A BoW, is the easiest yet very effective technique t
 The approach is very simple, we take a text document and covert them into vectors and each vector represents the frequency of that word in that document. In simple words a bag-of-words is a representation of text that describes the occurrence of words within a document. It involves 2 things:-
 * Vocabulary of the words.
 * A measure of presend of known words.
+
+```bash
+from sklearn.feature_extraction.text import CountVectorizer
+
+#Defining the fuction to generate bag of words, which take text corpus as input.
+#Count Vectorizer, implements both tokenization and occurence counting in a single class
+def Bag_of_words(corpus):
+    vectorizer = CountVectorizer()
+    features = vectorizer.fit_transform(corpus)
+    return vertorizer, features
+```
+
+
