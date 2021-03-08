@@ -96,7 +96,7 @@ def Tokenize_Text(text):
     return tokens
 ```
 
-### 3: Removing Stopwords
+### 4: Removing Stopwords
 Stopwords are the words that has little or no significance especially when consturcting meaningful features from text. They are removed from the text so that we are left with words having maximum significance.
 
 They are usually words that have maximum frequency if you aggregate any corpus of text based on singular tokens.
@@ -113,10 +113,10 @@ def Remove_Stopwords(tokens):
     return filtered_tokens
 ```
 
-### 4: Correcting Words
-Incorrect spellings are very normal and also one of the main challeges faced in Text Normalization. The definition of incorrect here covers words that have spelling mistakes as well as words with several letters repeated that do not contribute much to its overall significance.
+### 5: Correcting Words
+Incorrect spellings are very normal and also one of the main challenges  faced in Text Normalization. The definition of incorrect here covers words that have spelling mistakes as well as words with several letters repeated that do not contribute much to its overall significance.
 
-#### 4.1: Correcting Repeating Characters
+#### 5.1: Correcting Repeating Characters
 ```bash
 from nltk.corpus import wordnet
 
@@ -134,5 +134,89 @@ def Remove_Repeated_Characters(tokens):
     return correct_tokens
  ```
  
-#### 4.2: Correcting Spellings
+#### 5.2: Correcting Spellings
+```bash
+from collection import Counter
+#Generate a word vocabulary, which will be used as a reference to check the spelling using a file containing severl books from 
+#Gutenberg corpus and also list of most frequent words from wiktionary and British National Corpus. You can download it from
+# http://norvig.com/big.txt
 
+def tokens(text):
+    return re.findall('[a-z]+', text.lower())
+
+path = '../Raw_Data/big.txt'
+
+with open(path) as file:
+    doc = file.read()
+
+words = tokens(doc)
+word_counts = Counter(words)
+```
+```bash
+# Define functions that compute sets of words that are one and two edits away from input word.
+def edits1(word):
+    "All edits that are one edit away from `word`."
+    letters    = 'abcdefghijklmnopqrstuvwxyz'
+    splits     = [(word[:i], word[i:])    for i in range(len(word) + 1)]
+    deletes    = [L + R[1:]               for L, R in splits if R]
+    transposes = [L + R[1] + R[0] + R[2:] for L, R in splits if len(R)>1]
+    replaces   = [L + c + R[1:]           for L, R in splits if R for c in letters]
+    inserts    = [L + c + R               for L, R in splits for c in letters]
+    return set(deletes + transposes + replaces + inserts)
+
+def edits2(word): 
+    "All edits that are two edits away from `word`."
+    return (e2 for e1 in edits1(word) for e2 in edits1(e1))
+    ```
+```bash
+# Defining function that returns a subset of words from our candidate set of words obtained from 
+# the edit functions, based on whether they occur in our vocabulary dictionary word_counts.
+# This gives us a list of valid words from our set of candidate words.
+def known(words): 
+    "The subset of `words` that appear in the dictionary of word_counts."
+    return set(w for w in words if w in word_counts)
+```
+    
+```bash
+# Define function to correct words
+def Correct_Words(words):
+    # Get the best correct spellings for the input words
+    def candidates(word): 
+        # Generate possible spelling corrections for word.
+        # Priority is for edit distance 0, then 1, then 2, else defaults to the input word itself.
+        candidates = known([word]) or known(edits1(word)) or known(edits2(word)) or [word]
+        return candidates
+    
+    corrected_words = [max(candidates(word), key=word_counts.get) for word in words]
+    return corrected_words
+```
+    
+### 6: Lemmatization
+The process of lemmatization is to remove word affixes to get to a base form of the word. The base form is also known as the root word, or the lemma will always be present in the dictionary.
+```bash
+nlp = spacy.load("en_core_web_sm")
+#Defining function for lemmatization
+def Lemmatize_Tokens(tokens):
+    doc = ' '.join(tokens)
+    Lemmatized_tokens = [token.lemma_ for token in nlp(doc)]
+    return Lemmatized_tokens
+  ```
+ ### 7: Text Normalization
+ ```bash
+ def Normalize_Text_Corpus(corpus):
+    normalized_corpus = []
+    for text in corpus:
+        text = text.lower()
+        text = Remove_Special_Characters(text)
+        tokens = Tokenize_Text(text)
+        tokens = Remove_Stopwords(tokens)
+        tokens = Remove_Repeated_Characters(tokens)
+        tokens = Correct_Words(tokens)
+        tokens = Lemmatize_Tokens(tokens)
+        text = ' '.join(tokens)
+        normalized_corpus.append(text)
+    return normalized_corpus
+ ```
+ After this step, we get Normalized Amazon Reviews.
+ 
+ 
