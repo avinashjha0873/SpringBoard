@@ -60,7 +60,7 @@ One important task in text normalization involves removing unnecessary and speci
 
 Special Characters and symbols are usually non-alphanumeric characters or even occasionally numeric characters(depending on the problem) which adds extra noise to unstructured text data and does not add much significance while analyzing text and utilizing it for feature extraction
 
-```bash
+```python
 #Defining function to remove special characters keeping only apha characters
 def Remove_Special_Characters(text):
     text = text.strip()
@@ -86,7 +86,7 @@ Tokenization is the process of transforming a string or document into smaller ch
 **Sentence Tokenization** is a process of converting text corpus into sentences which is the first level of tokens. This is also called Sentence Segmentation because we try to segment the text into meaningful sentences.
 
 **Word Tokenization** is a process of splitting sentences into words.
-```bash
+```python
 #Defined Tokenization fuction
 # The following function will take any sentence and convert it into word tokens
 # Then strip leading and trailing spaces
@@ -103,7 +103,7 @@ They are usually words that have maximum frequency if you aggregate any corpus o
 
 Ex:- a, the, of and so on.
 
-```bash
+```python
 #In Python, searching through set is much faster than list.
 stopword_set = set(stopwords.words("english"))
 
@@ -117,7 +117,7 @@ def Remove_Stopwords(tokens):
 Incorrect spellings are very normal and also one of the main challenges  faced in Text Normalization. The definition of incorrect here covers words that have spelling mistakes as well as words with several letters repeated that do not contribute much to its overall significance.
 
 #### 5.1: Correcting Repeating Characters
-```bash
+```python
 from nltk.corpus import wordnet
 
 # Define function to remove repeated characters
@@ -135,7 +135,7 @@ def Remove_Repeated_Characters(tokens):
  ```
  
 #### 5.2: Correcting Spellings
-```bash
+```python
 from collection import Counter
 #Generate a word vocabulary, which will be used as a reference to check the spelling using a file containing severl books from 
 #Gutenberg corpus and also list of most frequent words from wiktionary and British National Corpus. You can download it from
@@ -168,7 +168,7 @@ def edits2(word):
     "All edits that are two edits away from `word`."
     return (e2 for e1 in edits1(word) for e2 in edits1(e1))
     ```
-```bash
+```python
 # Defining function that returns a subset of words from our candidate set of words obtained from 
 # the edit functions, based on whether they occur in our vocabulary dictionary word_counts.
 # This gives us a list of valid words from our set of candidate words.
@@ -177,7 +177,7 @@ def known(words):
     return set(w for w in words if w in word_counts)
 ```
     
-```bash
+```python
 # Define function to correct words
 def Correct_Words(words):
     # Get the best correct spellings for the input words
@@ -193,7 +193,7 @@ def Correct_Words(words):
     
 ### 6: Lemmatization
 The process of lemmatization is to remove word affixes to get to a base form of the word. The base form is also known as the root word, or the lemma will always be present in the dictionary.
-```bash
+```python
 nlp = spacy.load("en_core_web_sm")
 #Defining function for lemmatization
 def Lemmatize_Tokens(tokens):
@@ -202,7 +202,7 @@ def Lemmatize_Tokens(tokens):
     return Lemmatized_tokens
   ```
  ### 7: Text Normalization
- ```bash
+ ```python
  def Normalize_Text_Corpus(corpus):
     normalized_corpus = []
     for text in corpus:
@@ -229,8 +229,9 @@ The Vector Space Model, also known as the Term Vector Model, is defined as a mat
 I will be implementing the following feature-extraction techniques in this project:
 * Bag of Words model
 * TF-IDF model
-* Averaged Word Vectors
-* TF-IDF Weighted Averaged Word Vectors
+* Advance Word Vertorization Models
+  * Averaged Word Vectors
+  * TF-IDF Weighted Averaged Word Vectors
 
 ### 1: Bag of Words Model
 The Bag of Words Model, A.K.A BoW, is the easiest yet very effective technique to extract features from text data that can be used to train machine learning models.
@@ -239,7 +240,7 @@ The approach is very simple, we take a text document and covert them into vector
 * Vocabulary of the words.
 * A measure of presend of known words.
 
-```bash
+```python
 from sklearn.feature_extraction.text import CountVectorizer
 
 #Defining the fuction to generate bag of words, which take text corpus as input.
@@ -266,7 +267,7 @@ In our implementation, we will be adding 1 to the document frequency for each te
 
 where idf(t) represents the idf for the term t, C represents the count of the total number of documents in our corpus, and df(t) represents the frequency of the number of documents in which the term t is present.
 
-```bash
+```pythpn
 from sklearn.feature_extraction.text import TfidfVectorizer
 #Defining the function to compute tfidf based feature vectors for documents.
 def tfidf(corpus):
