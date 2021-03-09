@@ -29,7 +29,8 @@ Sample review is as follows:
 
 ## Preliminary Analysis
 
-* Summary of the dataset
+### 1: Entire Dataset
+* Summary 
 
   ![Summary of Dataset](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Preliminary_Analysis.PNG)
 
@@ -37,8 +38,29 @@ Sample review is as follows:
 
   ![Distribution of Rating Score](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Frequency_of_Ratings.PNG)
   
-     ![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Frequency_of_Ratings2.PNG)
+     ![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Frequency_of_Ratings_Entire%20Dataset.PNG)
+
+* Description with Null Value Counts
+
+  ![Description](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Preliminary_Analysis%20Entire%20Dataset%20(2).PNG)
   
+### 2: Subset of Dataset
+* Summary 
+
+  ![Summary of Dataset](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Preliminary_Analysis%20Subset%20Dataset%20(2).PNG)
+
+* Distribution of Rating Score
+
+  ![Distribution of Rating Score](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Frequency_of_Ratings%20subset.PNG)
+  
+     ![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Frequency_of_Ratings%20subset2.PNG)
+
+* Description with Null Value Counts
+
+  ![Description](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Preliminary_Analysis%20Subset%20Dataset.PNG)
+
+
+  ![Summary of Dataset](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Preliminary_Analysis%20Subset%20Dataset%20(2).PNG)
 ## Pre-processing - Text Normalization
 Preprocessing is an important step when working with Natural Language Processing(NLP) and text analysis. Normally, text data or corpus are not well-formatted in their raw format. Therefore we need to use various techniques to transform that data into a suitable format. Machine Learning Algorithm usually works with features that are numerical which can be obtained by cleaning, normalizing, and pre-processing the raw text data.
 
