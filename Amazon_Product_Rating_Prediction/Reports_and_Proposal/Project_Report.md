@@ -249,7 +249,7 @@ The approach is very simple, we take a text document and convert them into vecto
 It involves 2 things:-
 
 * The vocabulary of the words.
-* A measure of presend of known words.
+* A measure of presence of known words.
 
 
 ```python
