@@ -37,6 +37,8 @@ Sample review is as follows:
 
   ![Distribution of Rating Score](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Frequency_of_Ratings.PNG)
   
+     ![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Frequency_of_Ratings2.PNG)
+  
 ## Pre-processing - Text Normalization
 Preprocessing is an important step when working with Natural Language Processing(NLP) and text analysis. Normally, text data or corpus are not well-formatted in their raw format. Therefore we need to use various techniques to transform that data into a suitable format. Machine Learning Algorithm usually works with features that are numerical which can be obtained by cleaning, normalizing, and pre-processing the raw text data.
 
@@ -152,7 +154,8 @@ with open(path) as file:
 words = tokens(doc)
 word_counts = Counter(words)
 ```
-```bash
+
+```python
 # Define functions that compute sets of words that are one and two edits away from input word.
 def edits1(word):
     "All edits that are one edit away from `word`."
@@ -167,7 +170,8 @@ def edits1(word):
 def edits2(word): 
     "All edits that are two edits away from `word`."
     return (e2 for e1 in edits1(word) for e2 in edits1(e1))
-    ```
+```
+
 ```python
 # Defining function that returns a subset of words from our candidate set of words obtained from 
 # the edit functions, based on whether they occur in our vocabulary dictionary word_counts.
@@ -194,6 +198,7 @@ def Correct_Words(words):
 ### 6: Lemmatization
 The process of lemmatization is to remove word affixes to get to a base form of the word. The base form is also known as the root word, or the lemma will always be present in the dictionary.
 ```python
+import spacy
 nlp = spacy.load("en_core_web_sm")
 #Defining function for lemmatization
 def Lemmatize_Tokens(tokens):
@@ -274,7 +279,7 @@ In my implementation, we will be adding 1 to the document frequency for each ter
 
 where idf(t) represents the idf for the term t, C represents the count of the total number of documents in our corpus, and df(t) represents the frequency of the number of documents in which the term t is present.
 
-```pythpn
+```python
 from sklearn.feature_extraction.text import TfidfVectorizer
 #Defining the function to compute tfidf based feature vectors for documents.
 def tfidf(corpus):
