@@ -12,7 +12,7 @@ The purpose of this project is to develop a model that could predict its rating 
 
 ## Results
 
-[Report]() 
+[Report](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Reports_and_Proposal/Project_Report.md) 
 
 Code
 * [Data Wrangling and Exploratory Data Analysis]()
