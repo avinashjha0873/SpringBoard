@@ -282,7 +282,19 @@ def tfidf(corpus):
     features = vectorizer.fit_transform(corpus)
     return vectorizer, features
  ```
+ ## Work Done and Future Work 
  
+In this project, I tried to predict product ratings on Amazon using text reviews. I performed Text Normalization and Feature Engineering to process data and extracted features that would be used in the training process of the models. I trained this model on two different classifiers with 4 different kinds of features. Last, I used hyperparameter tuning to improve the models.
+NLP(Natural Language Processing) is a very useful topic. But it is also a CPU-intensive and time-consuming job. I could only make a prototype in this project because of the limitation of computational power and time.
+
+In the future, 
+* Full dataset or datasets of other categories can be explored.
+* Summary can also be included to train the model
+* Other Normalization Techniques, like stemming and Expanding Contractions can be include.
+* Other Classification models can be implemented.
+* Models can be evaluated using data from other websites
+* Use advanced modern NLP tech in text preprocessing.
+
  ## References
  
  * [Scikit Learn Feaure Extraction](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction)
