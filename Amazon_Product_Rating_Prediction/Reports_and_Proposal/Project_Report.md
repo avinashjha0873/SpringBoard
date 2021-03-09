@@ -99,7 +99,7 @@ def Tokenize_Text(text):
 ```
 
 ### 4: Removing Stopwords
-Stopwords are the words that has little or no significance especially when consturcting meaningful features from text. They are removed from the text so that we are left with words having maximum significance.
+Stopwords are the words that has little or no significance especially when constructing meaningful features from text. They are removed from the text so that we are left with words having maximum significance.
 
 They are usually words that have maximum frequency if you aggregate any corpus of text based on singular tokens.
 
