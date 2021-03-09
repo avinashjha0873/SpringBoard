@@ -15,7 +15,7 @@ The purpose of this project is to develop a model that could predict its rating 
 [Report](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Reports_and_Proposal/Project_Report.md) 
 
 Code
-* [Data Wrangling and Exploratory Data Analysis]()
+* [Data Wrangling and Exploratory Data Analysis](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Notebooks/1-%20Data%20Wrangling%20and%20EDA.ipynb)
 * [Data Preprocessing and Modeling]()
 
 [Presentation]()
