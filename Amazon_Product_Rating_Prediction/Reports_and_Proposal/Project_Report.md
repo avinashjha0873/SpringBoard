@@ -282,7 +282,24 @@ def tfidf(corpus):
     features = vectorizer.fit_transform(corpus)
     return vectorizer, features
  ```
- ## Work Done and Future Work 
+
+
+
+
+### 4. Hyperparameter Tuning
+
+**Hyperparameters** are parameters whose values are used to control Learning Process. Hyperparameters are set before the model begins to learn. Different models have different hyperparameters. Like the depth of a decision tree.
+
+Hyper-parameters are parameters that are not directly learned within estimators. In scikit-learn, they are passed as arguments to the constructor of the estimator classes.
+
+In machine learning, **hyperparameter tuning** is the problem of choosing a set of optimal hyperparameters for a learning algorithm. Usually, a metric is chosen to measure the algorithm's performance on an independent data set and hyperparameters that maximize this measure are adopted. Often cross-validation is used to estimate this generalization performance.
+
+There are two ways of Hyperparameter tuning:-
+* GridSearchCV, exhaustively considers all parameter combinations
+* RandomSearchCV, sample a given number of candidates from a parameter space with a specified distribution
+
+
+## Work Done and Future Work 
  
 In this project, I tried to predict product ratings on Amazon using text reviews. I performed Text Normalization and Feature Engineering to process data and extracted features that would be used in the training process of the models. I trained this model on two different classifiers with 4 different kinds of features. Last, I used hyperparameter tuning to improve the models.
 NLP(Natural Language Processing) is a very useful topic. But it is also a CPU-intensive and time-consuming job. I could only make a prototype in this project because of the limitation of computational power and time.
@@ -299,3 +316,4 @@ In the future,
  
  * [Scikit Learn Feaure Extraction](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction)
  * [Introduction to Bag of Words](https://machinelearningmastery.com/gentle-introduction-bag-words-model/)
+ * [Geeks for Geeks](https://www.geeksforgeeks.org/nlp-expand-contractions-in-text-processing/)
