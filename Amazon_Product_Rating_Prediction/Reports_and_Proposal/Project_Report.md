@@ -282,6 +282,39 @@ def tfidf(corpus):
     features = vectorizer.fit_transform(corpus)
     return vectorizer, features
  ```
+## Machine learning and Modeling
+
+Here, I developed models using classification algorithms to predict ratings of products based on the reviews with machine learning. Classification algorithms are supervised ML algorithms that are used to classify data points based on what it has observed in the past. 
+
+This is a three-step process
+* Training
+* Evaluation 
+* Hyperparameter Tuning
+
+Before develop and evaluate models, first, we split data into train and test sets.
+
+### 1: Classification models
+
+There are multiple classification algorithms, but for this project, we will use two algorithms that are quite effective for text classification.
+
+**Logistic Regression(maximum-entropy classification)**
+Logistic regression, despite its name, is a linear model for classification rather than regression. Logistic Regression is a binary classifier but can be used for multilevel classification. In this model, the probabilities describing the possible outcomes of a single trial are modeled using a logistic function.
+
+**Random Forest Classifier**
+The Random forest classifier creates a set of decision trees from a randomly selected subset of the training set. It is basically a set of decision trees (DT) from a randomly selected subset of the training set and then It collects the votes from different decision trees to decide the final prediction.
+
+In random forests, each tree in the ensemble is built from a sample drawn with replacement (i.e., a bootstrap sample) from the training set. In addition, when splitting a node during the construction of the tree, the split that is chosen is no longer the best split among all features. Instead, the split that is picked is the best split among a random subset of the features. As a result of this randomness, the bias of the forest usually slightly increases (with respect to the bias of a single non-random tree) but, due to averaging, its variance also decreases, usually more than compensate for the increase in bias, hence yielding an overall better model.
+
+### 2: Evaluating Classification Models
+The performance of classification models is usually based on how well they predict outcomes for new data points.
+
+Several metrics determine a model’s prediction performance, but we will mainly focus on the following metrics:
+* Accuracy
+* Recall
+
+Accuracy is defined as the overall accuracy or proportion of correct predictions of the model. We have our correct predictions in the numerator divided by all the outcomes in the denominator.
+
+Recall is defined as the number of instances of the positive class that were correctly predicted. This is also known as hit rate, coverage, or sensitivity.  We use the metrics module from scikit-learn, which is very powerful and helps in computing these metrics with a single function.
 
 
 
@@ -300,7 +333,6 @@ There are two ways of Hyperparameter tuning:-
 
 
 ## Work Done and Future Work 
- 
 In this project, I tried to predict product ratings on Amazon using text reviews. I performed Text Normalization and Feature Engineering to process data and extracted features that would be used in the training process of the models. I trained this model on two different classifiers with 4 different kinds of features. Last, I used hyperparameter tuning to improve the models.
 NLP(Natural Language Processing) is a very useful topic. But it is also a CPU-intensive and time-consuming job. I could only make a prototype in this project because of the limitation of computational power and time.
 
