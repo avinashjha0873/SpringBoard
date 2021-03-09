@@ -63,7 +63,12 @@ One important task in text normalization involves removing unnecessary and speci
 Special Characters and symbols are usually non-alphanumeric characters or even occasionally numeric characters(depending on the problem) which adds extra noise to unstructured text data and does not add much significance while analyzing text and utilizing it for feature extraction
 
 ```python
-#Defining function to remove special characters keeping only apha characters
+import re
+
+# Defined function will strip leading and trailing spaces 
+# Looks for special characters, replace with space
+# returning only apha characters
+
 def Remove_Special_Characters(text):
     text = text.strip()
     pattern = '[^a-zA-z]'
@@ -89,9 +94,10 @@ Tokenization is the process of transforming a string or document into smaller ch
 
 **Word Tokenization** is a process of splitting sentences into words.
 ```python
-#Defined Tokenization fuction
+# Defined Tokenization fuction
 # The following function will take any sentence and convert it into word tokens
 # Then strip leading and trailing spaces
+
 def Tokenize_Text(text):
     word_tokens = word_tokenize(text)
     tokens = [token.strip() for token in word_tokens]
@@ -106,10 +112,14 @@ They are usually words that have maximum frequency if you aggregate any corpus o
 Ex:- a, the, of and so on.
 
 ```python
+from nltk.corpus import stopwords
+
 #In Python, searching through set is much faster than list.
 stopword_set = set(stopwords.words("english"))
 
-#Defining a function to remove stopwords
+# Defined function will romove remove stopwords
+# Here, words not in stopword corpus will be kept
+
 def Remove_Stopwords(tokens):
     filtered_tokens = [token for token in tokens if token not in stopword_set]
     return filtered_tokens
@@ -122,15 +132,16 @@ Incorrect spellings are very normal and also one of the main challenges  faced i
 ```python
 from nltk.corpus import wordnet
 
-# Define function to remove repeated characters
+# Defined function to remove repeated characters
+
 def Remove_Repeated_Characters(tokens):
-    repeat_pattern = re.compile(r'(\w*)(\w)\2(\w*)')
+    repeat_pattern = re.compile(r'(\w*)(\w)\2(\w*)') #Regex object to look for repeated charaters
     match_substitution = r'\1\2\3'
     def replace(old_word):
         if(wordnet.synsets(old_word)):
             return old_word
         new_word = repeat_pattern.sub(match_substitution, old_word) # substitutes a wrong spelling like "Hellooooo" to "Hello"
-        return replace(new_word) if new_word != old_word else new_word
+        return replace(new_word) if new_word != old_word else new_word # Replaces repeating characters, till there are none left
 
     correct_tokens = [replace(word) for word in tokens]
     return correct_tokens
@@ -138,7 +149,8 @@ def Remove_Repeated_Characters(tokens):
  
 #### 5.2: Correcting Spellings
 ```python
-from collection import Counter
+from collections import Counter
+
 #Generate a word vocabulary, which will be used as a reference to check the spelling using a file containing severl books from 
 #Gutenberg corpus and also list of most frequent words from wiktionary and British National Corpus. You can download it from
 # http://norvig.com/big.txt
@@ -149,9 +161,9 @@ def tokens(text):
 path = '../Raw_Data/big.txt'
 
 with open(path) as file:
-    doc = file.read()
+    document = file.read()
 
-words = tokens(doc)
+words = tokens(document)
 word_counts = Counter(words)
 ```
 
@@ -176,6 +188,7 @@ def edits2(word):
 # Defining function that returns a subset of words from our candidate set of words obtained from 
 # the edit functions, based on whether they occur in our vocabulary dictionary word_counts.
 # This gives us a list of valid words from our set of candidate words.
+
 def known(words): 
     "The subset of `words` that appear in the dictionary of word_counts."
     return set(w for w in words if w in word_counts)
@@ -200,10 +213,12 @@ The process of lemmatization is to remove word affixes to get to a base form of 
 ```python
 import spacy
 nlp = spacy.load("en_core_web_sm")
-#Defining function for lemmatization
+
+# Defined function for lemmatization
+
 def Lemmatize_Tokens(tokens):
-    doc = ' '.join(tokens)
-    Lemmatized_tokens = [token.lemma_ for token in nlp(doc)]
+    doc = ' '.join(tokens) # Creates a string doc seperated with spaces 
+    Lemmatized_tokens = [token.lemma_ for token in nlp(doc)] # looks for lemma for each word
     return Lemmatized_tokens
   ```
  ### 7: Text Normalization
@@ -257,6 +272,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 #Defining the fuction to generate bag of words, which take text corpus as input.
 #Count Vectorizer, implements both tokenization and occurence counting in a single class
+
 def Bag_of_words(corpus):
     vectorizer = CountVectorizer()
     features = vectorizer.fit_transform(corpus)
@@ -281,12 +297,92 @@ where idf(t) represents the idf for the term t, C represents the count of the to
 
 ```python
 from sklearn.feature_extraction.text import TfidfVectorizer
+
 #Defining the function to compute tfidf based feature vectors for documents.
+
 def tfidf(corpus):
     vectorizer = TfidfVectorizer()
     features = vectorizer.fit_transform(corpus)
     return vectorizer, features
  ```
+ 
+ ### 3: Average Word Vector
+ In this technique, we have a word vector of vocabulary, if token in a sentence is present in the vocabulary we caputre the word. We will sum all the word vectors and devide the result with total number of words matched in the vocabulary to get a finall resulting averaged word vector representation for the text.
+
+![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/Average_word_Vector_Formula.PNG)
+
+ ```python
+ # Define function to average word vectors for a text document
+def Average_Word_Vectors(sentence, model, vocabulary, num_features):
+    
+    feature_vector = np.zeros((num_features),dtype="float64")
+    nwords = 0.
+    
+    for word in sentence:
+        if word in vocabulary: 
+            nwords = nwords + 1.
+            feature_vector = np.add(feature_vector, model.wv[word])
+
+    
+    if nwords:
+        feature_vector = np.divide(feature_vector, nwords)
+    return feature_vector
+```
+
+```python
+# Generalize above function for a corpus of documents  
+def Average_Word_Vectorizer(corpus, model, num_features):
+    vocabulary = set(model.wv.index2word)
+    #print(vocabulary)
+    features = [Average_Word_Vectors(sentence, model, vocabulary, num_features) for sentence in corpus]
+    return np.array(features)
+```
+
+### 4: TF-IDF Weighted Average word Vectors
+Here we use a technique, strategy of weighing each matched vector with the word TF-TDF score and summing up all the word vectors for a doc and dividing it by the sum of all the TF-IDF loads of the matched words in the document. This would essentially give us a TF-IDF weighted averaged word vector for each document.
+
+![](https://github.com/avinashjha0873/SpringBoard/blob/main/Amazon_Product_Rating_Prediction/Images/TF-IDF%20weighted%20word%20avg%20formula.PNG)
+
+where TWA(D) is the TF-IDF weighted averaged word vector representation for document D, containing words w1, w2, ..., wn, where wv(w) is the word vector representation and tfidf(w) is the TF-IDF weight for the word w.
+
+```python
+# Define function to compute tfidf weighted averaged word vector for a document
+def tfidf_wtd_avg_word_vectors(words, tfidf_vector, tfidf_vocabulary, model, num_features):
+    
+    word_tfidfs = [tfidf_vector[0, tfidf_vocabulary.get(word)] 
+                   if tfidf_vocabulary.get(word) 
+                   else 0 for word in words]    
+    word_tfidf_map = {word:tfidf_val for word, tfidf_val in zip(words, word_tfidfs)}
+    
+    feature_vector = np.zeros((num_features,),dtype="float64")
+    vocabulary = set(model.wv.index2word)
+    wts = 0.
+    for word in words:
+        if word in vocabulary: 
+            word_vector = model.wv[word]
+            weighted_word_vector = word_tfidf_map[word] * word_vector
+            wts = wts + word_tfidf_map[word]
+            feature_vector = np.add(feature_vector, weighted_word_vector)
+    if wts:
+        feature_vector = np.divide(feature_vector, wts)
+        
+    return feature_vector
+ ```
+ 
+ ```python
+ # Generalize above function for a corpus of documents
+def tfidf_weighted_averaged_word_vectorizer(corpus, tfidf_vectors, 
+                                   tfidf_vocabulary, model, num_features):
+                                       
+    docs_tfidfs = [(doc, doc_tfidf) 
+                   for doc, doc_tfidf 
+                   in zip(corpus, tfidf_vectors)]
+    features = [tfidf_wtd_avg_word_vectors(tokenized_sentence, tfidf, tfidf_vocabulary,
+                                   model, num_features)
+                    for tokenized_sentence, tfidf in docs_tfidfs]
+    return np.array(features)
+```
+
 ## Machine learning and Modeling
 
 Here, I developed models using classification algorithms to predict ratings of products based on the reviews with machine learning. Classification algorithms are supervised ML algorithms that are used to classify data points based on what it has observed in the past. 
@@ -321,7 +417,13 @@ Accuracy is defined as the overall accuracy or proportion of correct predictions
 
 Recall is defined as the number of instances of the positive class that were correctly predicted. This is also known as hit rate, coverage, or sensitivity.  We use the metrics module from scikit-learn, which is very powerful and helps in computing these metrics with a single function.
 
+```python
+from sklearn.metrics import accuracy_score, classification_report
 
+def scoring_metrics(true_labels, predicted_labels):
+    print ('Accuracy: ', accuracy_score(true_labels,predicted_labels))
+    print (classification_report(true_labels, predicted_labels))
+```
 
 
 ### 4. Hyperparameter Tuning
@@ -335,6 +437,86 @@ In machine learning, **hyperparameter tuning** is the problem of choosing a set 
 There are two ways of Hyperparameter tuning:-
 * GridSearchCV, exhaustively considers all parameter combinations
 * RandomSearchCV, sample a given number of candidates from a parameter space with a specified distribution
+
+#### 4.1 Logistic Regression with Bag of words features
+```python
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {'penalty': ['l1', 'l2'], 'solver':['liblinear']} # Declaring Param_Grid
+
+LR_GridSearchCV = GridSearchCV(LogisticRegression(), param_grid = param_grid, cv=5)
+LR_GridSearchCV.fit(bow_train_features, train_y)
+
+test_pred = classifier_cv.predict(bow_test_features) 
+
+print("Tuned Parameter: {}".format(classifier_cv.best_params_))
+print("Tuned Score: {}".format(classifier_cv.best_score_))
+print()
+
+# evaluate model prediction performance 
+print ('Test set performance:')
+scoring_metrics(true_labels=test_y, predicted_labels=test_pred)
+```
+
+#### 4.2 Logistic Regression with TF-IDF Features
+```python
+from sklearn.model_selection import GridSearchCV
+
+param_grid = {'penalty': ['l1', 'l2'], 'solver':['liblinear']}
+
+classifier_cv = GridSearchCV(LogisticRegression(), param_grid = param_grid, cv=5)
+classifier_cv.fit(tfidf_train_features, train_y)
+
+test_pred = classifier_cv.predict(tfidf_test_features) 
+
+print("Tuned Parameter: {}".format(classifier_cv.best_params_))
+print("Tuned Score: {}".format(classifier_cv.best_score_))
+print()
+
+# evaluate model prediction performance 
+print ('Test set performance:')
+scoring_metrics(true_labels=test_y, predicted_labels=test_pred)
+```
+
+#### 4.3 RandomForestClassifier with Bag of words features
+```python
+n_options = [10,20,50,100,200]
+sample_leaf_options = [1,5,10,50,100,200,500]
+param_grid = {'n_estimators': n_options, 'min_samples_leaf': sample_leaf_options}
+
+classifier_cv = GridSearchCV(RandomForestClassifier(), param_grid = param_grid, cv=5) 
+classifier_cv.fit(bow_train_features, train_y)
+
+test_pred = classifier_cv.predict(bow_test_features) 
+
+print("Tuned Parameter: {}".format(classifier_cv.best_params_))
+print("Tuned Score: {}".format(classifier_cv.best_score_))
+print()
+
+# evaluate model prediction performance 
+print ('Test set performance:')
+scoring_metrics(true_labels=test_y, predicted_labels=test_pred)
+```
+
+#### 4.4 RandomForestClassifier with TF-IDF features
+```python
+n_options = [10,20,50,100,200]
+sample_leaf_options = [1,5,10,50,100,200,500]
+param_grid = {'n_estimators': n_options, 'min_samples_leaf': sample_leaf_options}
+
+classifier_cv = GridSearchCV(RandomForestClassifier(), param_grid = param_grid, cv=5) 
+classifier_cv.fit(tfidf_train_features, train_y)
+
+test_pred = classifier_cv.predict(tfidf_test_features) 
+
+print("Tuned Parameter: {}".format(classifier_cv.best_params_))
+print("Tuned Score: {}".format(classifier_cv.best_score_))
+print()
+
+# evaluate model prediction performance 
+print ('Test set performance:')
+scoring_metrics(true_labels=test_y, predicted_labels=test_pred)
+```
 
 
 ## Work Done and Future Work 
@@ -351,6 +533,7 @@ In the future,
 
  ## References
  
+ * [How to write Spelling Corrector](https://norvig.com/spell-correct.html)
  * [Scikit Learn Feaure Extraction](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction)
  * [Introduction to Bag of Words](https://machinelearningmastery.com/gentle-introduction-bag-words-model/)
  * [Geeks for Geeks](https://www.geeksforgeeks.org/nlp-expand-contractions-in-text-processing/)
