@@ -444,7 +444,81 @@ def scoring_metrics(true_labels, predicted_labels):
     print ('Accuracy: ', accuracy_score(true_labels,predicted_labels))
     print (classification_report(true_labels, predicted_labels))
 ```
+### 3: Confusion Matrix
+Confusion matrix is used to describe how a classification model is performing on the test data. Each row label of the matrix represents True labels where as the columns represents predicted labels.
+Results of Confusion Matrix are as follows:-
 
+#### 3.1 Logistic Regression with Bag of words features
+0  |  1  |  2  |  3  |  4  |   5
+--- | --- |--- | --- | --- | ---
+1 | 91 | 29 |  21 |  15  |  51
+2 | 35 | 25 |  33 |  20  | 62
+3 | 27 | 30 | 79 | 66  | 125
+4 |  10 | 17 |  71 | 172  | 345
+5 |  23 | 20 |  46 | 172  | 1415
+
+#### 3.2 Logistic Regression with Tdidf features
+0  |  1  |  2  |  3  |  4  |   5
+--- | --- |--- | --- | --- | ---
+1 | 79 | 2 |  15 |  14  |  97
+2 | 24 | 2 |  24 |  34  | 91
+3 | 15 | 4 | 55 | 72  | 181
+4 |  6 | 3 |  31 | 156  | 419
+5 |  7 | 1 |  13 | 95 | 1560
+
+#### 3.3 Logistic Regression with Average word vector features
+0  |  1  |  2  |  3  |  4  |   5
+--- | --- |--- | --- | --- | ---
+1 | 41 | 0 |  2 |  5  |  159
+2 | 12 | 1 |  4 |  17  | 141
+3 | 14 | 0 | 14 | 34  | 265
+4 |  6 | 0 |  11 | 56  | 542
+5 |  14 | 0 |  8 | 36  | 1618
+
+#### 3.4 Logistic Regression with Tdidf weighted average word vector features
+0  |  1  |  2  |  3  |  4  |   5
+--- | --- |--- | --- | --- | ---
+1 | 30 | 0 |  1 |  4  |  172
+2 | 13 | 0 |  5 |  12  | 145
+3 | 13 | 1 | 13 | 18  | 282
+4 |  11 | 0 | 6 | 43  | 555
+5 |  11 | 0 |  5 | 32  | 1628
+
+#### 3.5 Random Forest Classifier with Bag of words features
+0  |  1  |  2  |  3  |  4  |   5
+--- | --- |--- | --- | --- | ---
+1 | 31 | 0 |  5 |  4  |  167
+2 | 2 | 1 |  7 |  13  | 149
+3 | 2 | 0 | 19 | 21  | 285
+4 |  1 | 0 |  10 | 44  | 560
+5 |  2 | 0 |  5 | 23  | 1646
+
+#### 3.6 Random Forest Classifier with Tdidf features
+0  |  1  |  2  |  3  |  4  |   5
+--- | --- |--- | --- | --- | ---
+1 | 28 | 1 |  2 |  6  |  170
+2 | 4 | 0 |  6 |  13  | 152
+3 | 2 | 1 | 13 | 19  | 292
+4 |  2 | 0 |  8 | 40  | 566
+5 |  1 | 0 |  4 | 11  | 1660
+
+#### 3.7 Random Forest Classifier with Average word vector features
+0  |  1  |  2  |  3  |  4  |   5
+--- | --- |--- | --- | --- | ---
+1 | 33 | 0 |  11 |  12  |  151
+2 | 11 | 0 |  10 |  24  | 130
+3 | 7 | 2 | 23 | 46  | 249
+4 |  12 | 1 |  10 | 82  | 510
+5 |  17 | 1 |  17 | 84  | 1557
+
+#### 3.8 Random Forest Classifier with Tdidf weighted average word vector features
+0  |  1  |  2  |  3  |  4  |   5
+--- | --- |--- | --- | --- | ---
+1 | 28 | 1 |  8 |  12  |  158
+2 | 8 | 3 |  7 |  25  | 132
+3 | 15 | 3 | 19 | 42  | 248
+4 |  9 | 1 | 11 | 76  | 518
+5 |  12 | 2 |  23 | 86  | 1553
 
 ### 4. Hyperparameter Tuning
 
@@ -462,15 +536,15 @@ There are two ways of Hyperparameter tuning:-
 ```python
 from sklearn.model_selection import GridSearchCV
 
-param_grid = {'penalty': ['l1', 'l2'], 'solver':['liblinear']} # Declaring Param_Grid
+param_grid = {'penalty': ['l1', 'l2'], 'solver':['newton-cg', 'sag', 'saga']}
 
 LR_GridSearchCV = GridSearchCV(LogisticRegression(), param_grid = param_grid, cv=5)
 LR_GridSearchCV.fit(bow_train_features, train_y)
 
-test_pred = classifier_cv.predict(bow_test_features) 
-
-print("Tuned Parameter: {}".format(classifier_cv.best_params_))
-print("Tuned Score: {}".format(classifier_cv.best_score_))
+test_pred = LR_GridSearchCV.predict(bow_test_features) 
+print("Hyper Parameter Tuning of LogisticRegression with Bow features")
+print("Tuned Parameter: {}".format(LR_GridSearchCV.best_params_))
+print("Tuned Score: {}".format(LR_GridSearchCV.best_score_))
 print()
 
 # evaluate model prediction performance 
@@ -480,17 +554,15 @@ scoring_metrics(true_labels=test_y, predicted_labels=test_pred)
 
 #### 4.2 Logistic Regression with TF-IDF Features
 ```python
-from sklearn.model_selection import GridSearchCV
+param_grid = {'penalty': ['l1', 'l2'], 'solver':['newton-cg', 'sag', 'saga']}
 
-param_grid = {'penalty': ['l1', 'l2'], 'solver':['liblinear']}
+LR_GridSearchCV = GridSearchCV(LogisticRegression(), param_grid = param_grid, cv=5)
+LR_GridSearchCV.fit(tfidf_train_features, train_y)
 
-classifier_cv = GridSearchCV(LogisticRegression(), param_grid = param_grid, cv=5)
-classifier_cv.fit(tfidf_train_features, train_y)
-
-test_pred = classifier_cv.predict(tfidf_test_features) 
-
-print("Tuned Parameter: {}".format(classifier_cv.best_params_))
-print("Tuned Score: {}".format(classifier_cv.best_score_))
+test_pred = LR_GridSearchCV.predict(tfidf_test_features) 
+print("Hyper Parameter Tuning of LogisticRegression with TFIDF word vector")
+print("Tuned Parameter: {}".format(LR_GridSearchCV.best_params_))
+print("Tuned Score: {}".format(LR_GridSearchCV.best_score_))
 print()
 
 # evaluate model prediction performance 
@@ -501,16 +573,16 @@ scoring_metrics(true_labels=test_y, predicted_labels=test_pred)
 #### 4.3 RandomForestClassifier with Bag of words features
 ```python
 n_options = [10,20,50,100,200]
-sample_leaf_options = [1,5,10,50,100,200,500]
-param_grid = {'n_estimators': n_options, 'min_samples_leaf': sample_leaf_options}
+criterion_options = ['gini', 'entropy']
+param_grid = {'n_estimators': n_options, 'criterion': criterion_options}
 
-classifier_cv = GridSearchCV(RandomForestClassifier(), param_grid = param_grid, cv=5) 
-classifier_cv.fit(bow_train_features, train_y)
+RFC_GridSearchCV = GridSearchCV(RandomForestClassifier(), param_grid = param_grid, cv=5) 
+RFC_GridSearchCV.fit(bow_train_features, train_y)
 
-test_pred = classifier_cv.predict(bow_test_features) 
-
-print("Tuned Parameter: {}".format(classifier_cv.best_params_))
-print("Tuned Score: {}".format(classifier_cv.best_score_))
+test_pred = RFC_GridSearchCV.predict(bow_test_features) 
+print("Hyper Parameter Tuning of RandomForest Classifier with Bow features")
+print("Tuned Parameter: {}".format(RFC_GridSearchCV.best_params_))
+print("Tuned Score: {}".format(RFC_GridSearchCV.best_score_))
 print()
 
 # evaluate model prediction performance 
@@ -521,22 +593,31 @@ scoring_metrics(true_labels=test_y, predicted_labels=test_pred)
 #### 4.4 RandomForestClassifier with TF-IDF features
 ```python
 n_options = [10,20,50,100,200]
-sample_leaf_options = [1,5,10,50,100,200,500]
-param_grid = {'n_estimators': n_options, 'min_samples_leaf': sample_leaf_options}
+criterion_options = ['gini', 'entropy']
+param_grid = {'n_estimators': n_options, 'criterion': criterion_options}
 
-classifier_cv = GridSearchCV(RandomForestClassifier(), param_grid = param_grid, cv=5) 
-classifier_cv.fit(tfidf_train_features, train_y)
+RFC_GridSearchCV = GridSearchCV(RandomForestClassifier(), param_grid = param_grid, cv=5) 
+RFC_GridSearchCV.fit(tfidf_train_features, train_y)
 
-test_pred = classifier_cv.predict(tfidf_test_features) 
-
-print("Tuned Parameter: {}".format(classifier_cv.best_params_))
-print("Tuned Score: {}".format(classifier_cv.best_score_))
+test_pred = RFC_GridSearchCV.predict(tfidf_test_features) 
+print("Hyper Parameter Tuning of RandomForest Classifier with TFIDF word vector")
+print("Tuned Parameter: {}".format(RFC_GridSearchCV.best_params_))
+print("Tuned Score: {}".format(RFC_GridSearchCV.best_score_))
 print()
 
 # evaluate model prediction performance 
 print ('Test set performance:')
 scoring_metrics(true_labels=test_y, predicted_labels=test_pred)
 ```
+
+**4.5 Hyperparameter tuning result**
+
+No. | Models | Accuracy before tuning | Accuracy after tuning | Improved accuracy
+--- | --- | --- | --- | ---
+1 | Logistic Regression using Bag of words features | 0.594 | 0.614 | 0.02
+2 | Logistic Regression with Tfidf features | 0.617 | 0.617 | 0.0
+3 | Random Forest Classifier using Bag of words features | 0.580 | 0.586 | 0.006
+4 | Random Forest Classifier with Tfidf features | 0.580 | 0.577 | -0.003
 
 
 ## Work Done and Future Work 
@@ -557,3 +638,6 @@ In the future,
  * [Scikit Learn Feaure Extraction](https://scikit-learn.org/stable/modules/feature_extraction.html#text-feature-extraction)
  * [Introduction to Bag of Words](https://machinelearningmastery.com/gentle-introduction-bag-words-model/)
  * [Geeks for Geeks](https://www.geeksforgeeks.org/nlp-expand-contractions-in-text-processing/)
+ * Dipanjan Sarkar, [_Text Analytics in Python_](https://github.com/dipanjanS/text-analytics-with-python)
+ * [Natural Language Processing with Python](http://www.nltk.org/book/)  
+* [Predicting ratings of Amazon reviews - Techniques for imbalanced datasets](https://matheo.ulg.ac.be/bitstream/2268.2/2707/4/Memoire_MarieMartin_s112740.pdf)  
