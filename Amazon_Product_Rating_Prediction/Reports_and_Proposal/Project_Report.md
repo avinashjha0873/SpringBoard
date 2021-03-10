@@ -616,7 +616,7 @@ No. | Models | Accuracy before tuning | Accuracy after tuning | Improved accurac
 --- | --- | --- | --- | ---
 1 | Logistic Regression using Bag of words features | 0.594 | 0.614 | 0.02
 2 | Logistic Regression with Tfidf features | 0.617 | 0.617 | 0.0
-3 | Random Forest Classifier using Bag of words features | 0.580 | 0.586 | 0.006
+3 | Random Forest Classifier using Bag of words features | 0.580 | 0.581 | 0.001
 4 | Random Forest Classifier with Tfidf features | 0.580 | 0.577 | -0.003
 
 
